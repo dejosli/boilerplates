@@ -1,0 +1,60 @@
+version: '3.5'
+
+services:
+  netdata:
+    image: 'netdata/netdata:stable'
+    container_name: netdata
+    hostname: dkr.atnnews.local
+    restart: always
+    privileged: true
+    pid: host
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+      - NETDATA_EXTRA_APK_PACKAGES=apcupsd
+      - NETDATA_EXTRA_APK_PACKAGES=libvirt-daemon
+      - NETDATA_EXTRA_APK_PACKAGES=lm-sensors
+      - NETDATA_EXTRA_APK_PACKAGES=msmtp
+      - NETDATA_EXTRA_APK_PACKAGES=netcat-openbsd
+    volumes:
+      - netdata_config:/etc/netdata
+      - netdata_lib:/var/lib/netdata
+      - netdata_cache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      dkr_net:
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.netdata.rule=Host(`dkr.atnnews.local`) || Host(`atntech.duckdns.org`)
+      - traefik.http.routers.netdata.entrypoints=netdata
+      - traefik.http.routers.netdata.tls=true
+      - traefik.http.routers.netdata.middlewares=admin-auth
+      - traefik.http.middlewares.admin-auth.basicauth.users=admin:$$apr1$$LhoYFFR0$$94xvLs1ZHNY2DxNOUmLf20
+      - traefik.http.middlewares.admin-auth.basicauth.headerField=X-WebAuth-User
+      - traefik.http.middlewares.admin-auth.basicauth.removeheader=true
+    dns:
+      - 192.168.100.79
+      - 192.168.100.1
+
+volumes:
+  netdata_config:
+    name: netdata_config
+  netdata_lib:
+    name: netdata_lib
+  netdata_cache:
+    name: netdata_cache
+
+networks:
+  dkr_net:
+    external: true

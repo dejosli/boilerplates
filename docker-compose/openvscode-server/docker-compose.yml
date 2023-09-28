@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  vscode:
+    image: 'linuxserver/openvscode-server'
+    container_name: openvscode
+    hostname: openvscode
+    restart: always
+    privileged: true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+    volumes:
+      - openvscode_config:/config
+      - /home/admin/Docker:/config/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vscode.rule=Host(`dkr.atnnews.local`) || Host(`atntech.duckdns.org`)
+      - traefik.http.routers.vscode.entrypoints=vscode
+      - traefik.http.routers.vscode.tls=true
+      - traefik.http.routers.vscode.middlewares=admin-auth
+      - traefik.http.middlewares.admin-auth.basicauth.users=admin:$$apr1$$LhoYFFR0$$94xvLs1ZHNY2DxNOUmLf20
+      - traefik.http.middlewares.admin-auth.basicauth.headerField=X-WebAuth-User
+      - traefik.http.middlewares.admin-auth.basicauth.removeheader=true
+    networks:
+      dkr_net:
+    dns:
+      - 192.168.100.79
+      - 192.168.100.1
+
+volumes:
+  openvscode_config:
+    name: openvscode_config
+
+networks:
+  dkr_net:
+    external: true

@@ -1,0 +1,3 @@
+https://cloud.atnnewstv.com:443 {
+    reverse_proxy 182.160.112.133:11000
+}

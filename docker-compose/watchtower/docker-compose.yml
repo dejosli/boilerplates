@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  watchtower:
+    image: 'containrrr/watchtower'
+    container_name: watchtower
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      dkr_net:
+
+networks:
+  dkr_net:
+    external: true

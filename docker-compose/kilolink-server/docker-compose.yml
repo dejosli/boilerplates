@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+  rtmp-srv01:
+    image: 'kiloview/klnkserver:latest'
+    container_name: klnkserver
+    hostname: klnkserver.atnnews.local
+    restart: always
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+    volumes:
+      - klnkserver_config:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      ipvlan_net:
+        ipv4_address: 192.168.100.54
+        # ip addr add 192.168.100.54/24 dev eth0 (add it manually)
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+volumes:
+  klnkserver_config:
+    name: klnkserver_config
+
+networks:
+  ipvlan_net:
+    external: true

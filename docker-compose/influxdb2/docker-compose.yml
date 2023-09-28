@@ -1,0 +1,28 @@
+version: '3.5'
+
+services:
+  influxdb2:
+    image: 'influxdb:latest'
+    container_name: influxdb2
+    restart: always
+    privileged: true
+    ports:
+      - '8086:8086'
+    volumes:
+      - influxdb2_data:/var/lib/influxdb2
+      - /home/admin/Docker/influxdb2/config:/etc/influxdb2
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8086/health']
+      interval: 5s
+      timeout: 10s
+      retries: 20
+    networks:
+      prom_net:
+
+volumes:
+  influxdb2_data:
+    name: influxdb2_data
+
+networks:
+  prom_net:
+    external: true

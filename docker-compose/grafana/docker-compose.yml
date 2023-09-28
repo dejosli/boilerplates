@@ -1,0 +1,27 @@
+version: '3.5'
+
+services:
+  grafana:
+    image: 'grafana/grafana-oss:latest'
+    container_name: grafana
+    hostname: grafana
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+      - GF_SERVER_ROOT_URL=http://localhost:3031/
+    ports:
+      - '3031:3000'
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      prom_net:
+
+volumes:
+  grafana_data:
+    name: grafana_data
+
+networks:
+  prom_net:
+    external: true

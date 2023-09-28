@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    network_mode: bridge
+    privileged: true
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+    ports:
+      - '8000:8000'
+      - '5000:9000'
+      - '5443:9443'
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+#    logging:
+#      driver: "gelf"
+#      options:
+#        gelf-address: "udp://<hostname or ip>:<port>"
+#        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
+
+volumes:
+  portainer_data:
+    name: portainer_data

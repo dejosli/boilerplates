@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  traefik:
+    image: 'traefik:latest'
+    container_name: traefik
+    restart: always
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Asia/Dhaka
+    ports:
+      #- '80:80'
+      #- '443:443'
+      #- '8080:8080 '' # Expose the dashboard !don't use in production!
+      - '8181:8181'
+      - '3000:3000'
+      - '19999:19999'
+    volumes:
+      - traefik_certs:/ssl-certs
+      - /home/admin/Docker/traefik:/etc/traefik
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      dkr_net:
+    dns:
+      - 192.168.100.79
+      - 192.168.100.1
+
+volumes:
+  traefik_certs:
+    name: traefik_certs
+
+networks:
+  dkr_net:
+    external: true

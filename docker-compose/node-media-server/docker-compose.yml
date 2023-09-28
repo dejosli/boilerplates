@@ -1,0 +1,63 @@
+version: '3.5'
+
+services:
+  rtmp-srv01:
+    image: 'atnnews/node-media-server:latest'
+    # image: 'illuspas/node-media-server:latest'
+    container_name: rtmp-srv01
+    hostname: rtmp-srv01.atnnews.local
+    restart: always
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - '1935:1935'
+      - '8000:8000'
+      - '8443:8443'
+    networks:
+      ipvlan_net:
+        ipv4_address: x.x.x.x
+        # ip addr add x.x.x.x/24 dev eth0 (add it manually)
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+
+  rtmp-srv02:
+    image: 'node:lts-alpine'
+    container_name: rtmp-srv02
+    hostname: rtmp-srv02.atnnews.local
+    restart: always
+    privileged: true
+    user: 'root'
+    cap_add:
+      - NET_ADMIN
+    working_dir: /usr/src/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - /home/admin/Docker/Node-Media-Server:/usr/src/app
+    expose:
+      - '1935'
+      - '8000'
+      - '8443'
+    ports:
+      - '1935:1935'
+      - '8000:8000'
+      - '8443:8443'
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm install
+        node bin/app.js
+    networks:
+      ipvlan_net:
+        ipv4_address: x.x.x.x
+        # ip addr add x.x.x.x/24 dev eth0 (add it manually)
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+
+networks:
+  ipvlan_net:
+    external: true

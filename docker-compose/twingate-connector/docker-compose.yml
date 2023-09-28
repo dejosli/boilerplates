@@ -1,0 +1,64 @@
+version: '3.5'
+
+services:
+  atnnewstv-connector01:
+    image: 'twingate/connector:1'
+    container_name: atnnewstv-connector01
+    network_mode: host
+    restart: always
+    environment:
+      - TWINGATE_NETWORK=atnnewstv
+      - TWINGATE_ACCESS_TOKEN=eyJhbGciOiJFUzI1NiIsImtpZCI6InFGMHhySHlLR1M0dzFxVHFKX1RKTEloa3VuYjJKYTBORWpYaUd2d0ZBX28iLCJ0eXAiOiJEQVQifQ.eyJudCI6IkFOIiwiYWlkIjoiMTIwNTc2IiwiZGlkIjoiODE3NTA1IiwianRpIjoiMzQ3MTZlMzItNmU4My00N2YyLWEwNmMtODU1MWZlZjdhMGI5IiwiaXNzIjoidHdpbmdhdGUiLCJhdWQiOiJhdG5uZXdzdHYiLCJleHAiOjE2OTAwMTc1NjUsImlhdCI6MTY5MDAxMzk2NSwidmVyIjoiNCIsInRpZCI6IjM1MDYzIiwicm53IjoxNjkwMDE0MjY1LCJybmV0aWQiOiI0MzE3OSJ9.lIr-kt-ouAVm_LVDMVxOaLq4Uing7Bsh-sfasp9VqNZ9DFhTruoYB59rGmnQSZ9SgAtqaJb0puXSfSDlmdGyGA
+      - TWINGATE_REFRESH_TOKEN=VQpPThXPZtsdICZiLn5ay6Jto0-NoHGaeb-ZO6WSAFHGZ_xH6ar4kACEqhNh0YnkpwGOaY5erORZ4o3GAycRkZW62jVPb13CvBP92vVvnF3uR9-IC6Y9A3_jG5Stv5Z2gCGmIA
+      - TWINGATE_LABEL_HOSTNAME="`hostname`"
+      - TWINGATE_LOG_LEVEL=3
+
+  atnnewstv-connector02:
+    image: 'twingate/connector:1'
+    container_name: atnnewstv-connector02
+    network_mode: host
+    restart: always
+    environment:
+      - TWINGATE_NETWORK=atnnewstv
+      - TWINGATE_ACCESS_TOKEN=eyJhbGciOiJFUzI1NiIsImtpZCI6InozYWpTUURJTFVLbWdVc0s5cWl1dk5lUEU2ZWxIRDRXN1RrcFExYUNjMTAiLCJ0eXAiOiJEQVQifQ.eyJudCI6IkFOIiwiYWlkIjoiMTIyNDMzIiwiZGlkIjoiODI0MjIwIiwianRpIjoiZWM3MjBlZWEtNTRlMC00MjBmLWIzZTUtOTg3NWE4Yjg0NTgxIiwiaXNzIjoidHdpbmdhdGUiLCJhdWQiOiJhdG5uZXdzdHYiLCJleHAiOjE2OTAzNjY0ODQsImlhdCI6MTY5MDM2Mjg4NCwidmVyIjoiNCIsInRpZCI6IjM1MDYzIiwicm53IjoxNjkwMzYzMTg0LCJybmV0aWQiOiI0MzE3OSJ9.lggi06pfAq02Jg5Zt2wW9TrtSkJPOuzK9oCRsU_Xus3mdcgZX3tPwYHD7yZLbj9WGg1aG4Ahm4TMu2f1aBVMpQ
+      - TWINGATE_REFRESH_TOKEN=DIOFE6DxmX9jXKL5nA4dCYygjNsZhbmC8fN4WYExAXloXF2ne_MvBi1wdLdH-Xre7gsopEOPsyZYUQADvGrVcak7Tg8LNNJdZbxXQKz-I0l6B6FuGPvkoIKd1lBYj4JyKTtouw
+      - TWINGATE_LABEL_HOSTNAME="`hostname`"
+      - TWINGATE_LOG_LEVEL=3
+
+  atnnewstv-connector03:
+    image: 'twingate/connector:1'
+    container_name: atnnewstv-connector03
+    restart: always
+    environment:
+      - TWINGATE_NETWORK=atnnewstv
+      - TWINGATE_ACCESS_TOKEN=eyJhbGciOiJFUzI1NiIsImtpZCI6IlZRYVRuMW1uSzh4WF8ta0lCR0lTc2lnTVhjVllSeW5ZZDV5QUNLelpUcmMiLCJ0eXAiOiJEQVQifQ.eyJudCI6IkFOIiwiYWlkIjoiMTUxNDAyIiwiZGlkIjoiOTI2NDAyIiwianRpIjoiZWM2ZTI0YTAtM2ZhMy00NWFiLThlMTUtNDBlMzczY2I2MzBjIiwiaXNzIjoidHdpbmdhdGUiLCJhdWQiOiJhdG5uZXdzdHYiLCJleHAiOjE2OTQ2MDU4ODUsImlhdCI6MTY5NDYwMjI4NSwidmVyIjoiNCIsInRpZCI6IjM1MDYzIiwicm53IjoxNjk0NjAyNTg1LCJybmV0aWQiOiI2NDYxMiJ9.7zpwD-CjQWW9tIpUnG7-uIElBCAyk5zbnmiJmY0Lrut8_sSfKcmzGy_dUKaqX7bGvBqRx3jNwzif33hYHmwhWw
+      - TWINGATE_REFRESH_TOKEN=BBNYW44tDjIvonvpXSCx3MUscRjszina97Xb9gRvFHkYLvsOEgur-dFOu3zC5NN3xqTYHrAHntWwHvviW-gVqzxFJEO7lgoAPHRWVc2ex0fz68zOT8n0FA4GWjyvaUJaoAFZ7g
+      - TWINGATE_LABEL_HOSTNAME="`hostname`"
+      - TWINGATE_DNS=192.168.100.79
+      - TWINGATE_LOG_LEVEL=3
+    networks:
+      ipvlan_net:
+        ipv4_address: 192.168.100.54
+    sysctls:
+      net.ipv4.ping_group_range: '0 2147483647'
+
+  atnnewstv-connector04:
+    image: 'twingate/connector:1'
+    container_name: atnnewstv-connector04
+    restart: always
+    environment:
+      - TWINGATE_NETWORK=atnnewstv
+      - TWINGATE_ACCESS_TOKEN=eyJhbGciOiJFUzI1NiIsImtpZCI6IlZRYVRuMW1uSzh4WF8ta0lCR0lTc2lnTVhjVllSeW5ZZDV5QUNLelpUcmMiLCJ0eXAiOiJEQVQifQ.eyJudCI6IkFOIiwiYWlkIjoiMTUxNDAxIiwiZGlkIjoiOTI2NDAxIiwianRpIjoiYjM0ZDAyZDUtMTYzZi00NDFhLTk4MjEtODViNDliMTA2YTUyIiwiaXNzIjoidHdpbmdhdGUiLCJhdWQiOiJhdG5uZXdzdHYiLCJleHAiOjE2OTQ2MDUzNjgsImlhdCI6MTY5NDYwMTc2OCwidmVyIjoiNCIsInRpZCI6IjM1MDYzIiwicm53IjoxNjk0NjAyMDY4LCJybmV0aWQiOiI2NDYxMiJ9.dZuH2aMqj6B9EWSEh51N2qzNhWZuZ-BilwY_LAOSNj_k6JzMAyFYYNE6xcei5GFL1M5BCbl8QquV9yk3YGTEXA
+      - TWINGATE_REFRESH_TOKEN=rcoGjBsOwOxKvr6UnlJwHsX6jw3MC7iOjc9WwatmDCCEaIv2_ghUFdTngUvuviPrlc4-KyQb6XHeNDVlsEUbLiwDLTaq7BzuXH16NAQRzf7VqiOCF9Yo_zksYOKAzs80YMB0IA
+      - TWINGATE_LABEL_HOSTNAME="`hostname`"
+      - TWINGATE_DNS=192.168.100.79
+      - TWINGATE_LOG_LEVEL=3
+    networks:
+      ipvlan_net:
+        ipv4_address: 192.168.100.59
+    sysctls:
+      net.ipv4.ping_group_range: '0 2147483647'
+
+networks:
+  ipvlan_net:
+    external: true

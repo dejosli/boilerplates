@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  caddy-srv01:
+    image: 'caddy:alpine'
+    container_name: caddy-srv01
+    hostname: caddy-srv01.atnnews.local
+    restart: always
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      - CADDY_INGRESS_NETWORKS=ipvlan_net
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - /home/admin/Docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - /home/admin/Docker/caddy/Caddyfile/site:/srv
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      ipvlan_net:
+        ipv4_address: 182.160.112.130
+        # ip addr add 192.168.100.24/24 dev eth0 (add it manually)
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+
+volumes:
+  caddy_data:
+    name: caddy_data
+  caddy_config:
+    name: caddy_config
+
+networks:
+  ipvlan_net:
+    external: true

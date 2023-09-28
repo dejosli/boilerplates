@@ -1,0 +1,32 @@
+global
+    maxconn 6000
+    log stdout format raw local0
+    cpu-map auto:1/1-4 0-3
+
+defaults
+    mode tcp
+    log global
+    timeout connect 10s
+    timeout client 30s
+    timeout server 30s
+    timeout queue 30s
+
+frontend stats
+    mode http
+    bind *:8404
+    stats enable
+    stats uri /stats
+    stats refresh 10s
+    stats auth admin:admin  # Authentication credentials
+
+frontend rtmp_frontend
+     bind *:1935 name rtmp
+     default_backend rtmp_backend
+   
+backend rtmp_backend
+     balance roundrobin
+     server rtmp1 192.168.100.55:1935 check weight 10
+     server rtmp2 192.168.100.56:1935 check weight 10
+     server rmtp3 192.168.100.204:1935 check weight 8
+     server rtmp4 192.168.100.205:1935 check weight 5
+

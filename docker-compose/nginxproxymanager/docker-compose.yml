@@ -1,0 +1,56 @@
+version: '3.5'
+
+services:
+  nginxproxymanager-db:
+    image: 'jc21/mariadb-aria:latest'
+    container_name: nginxproxymanager-db
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+      - MYSQL_ROOT_PASSWORD=npm
+      - MYSQL_DATABASE=npm
+      - MYSQL_USER=npm
+      - MYSQL_PASSWORD=npm
+    volumes:
+      - nginxproxymanager_db:/var/lib/mysql
+    networks:
+      dkr_net:
+
+  nginxproxymanager-web:
+    depends_on:
+      - nginxproxymanager-db
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginxproxymanager-web
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+      - DB_MYSQL_HOST=nginxproxymanager-db
+      - DB_MYSQL_PORT=3306
+      - DB_MYSQL_USER=npm
+      - DB_MYSQL_PASSWORD=npm
+      - DB_MYSQL_NAME=npm
+    volumes:
+      - nginxproxymanager_data:/data
+      - nginxproxymanager_certs:/etc/letsencrypt
+    networks:
+      dkr_net:
+
+volumes:
+  nginxproxymanager_db:
+    name: nginxproxymanager_db
+  nginxproxymanager_data:
+    name: nginxproxymanager_data
+  nginxproxymanager_certs:
+    name: nginxproxymanager_certs
+
+networks:
+  dkr_net:
+    external: true

@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  duplicati:
+    image: 'lscr.io/linuxserver/duplicati:latest'
+    container_name: duplicati
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+    ports:
+      - '8200:8200'
+    volumes:
+      - </path/to/appdata/config>:/config # Contains all relevant configuration files
+      - </path/to/backups>:/backups # Path to store local backups
+      - </path/to/source>:/source # Path to source for files to backup
+    networks:
+      dkr_net:
+
+networks:
+  dkr_net:
+    external: true

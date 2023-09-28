@@ -1,0 +1,27 @@
+version: '3.5'
+
+services:
+  haproxy-srv01:
+    image: 'haproxy:lts-alpine'
+    container_name: haproxy-srv01
+    hostname: haproxy-srv01.atnnews.local
+    restart: always
+    privileged: true
+    user: 'root'
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /home/admin/Docker/haproxy:/usr/local/etc/haproxy:ro
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0
+    networks:
+      ipvlan_net:
+        ipv4_address: x.x.x.x
+        # ip addr add x.x.x.x/24 dev eth0 (add it manually)
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+
+networks:
+  ipvlan_net:
+    external: true

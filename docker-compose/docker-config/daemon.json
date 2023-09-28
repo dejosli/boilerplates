@@ -1,0 +1,11 @@
+{
+  "log-driver": "gelf",
+  "log-opts": {
+    "gelf-address": "udp://<hostname or ip>:<port>",
+    "tag": "{{.ImageName}}/{{.Name}}/{{.ID}}"
+  },
+  "mtu": 1500,
+  "bip": "172.17.0.1/24",
+  "default-gateway": "172.17.0.1",
+  "dns": ["1.1.1.1", "9.9.9.9"]
+}

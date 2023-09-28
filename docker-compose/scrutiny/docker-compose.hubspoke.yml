@@ -1,0 +1,57 @@
+version: '3.5'
+
+services:
+  web:
+    image: 'ghcr.io/analogj/scrutiny:master-web'
+    container_name: scrutiny-web
+    restart: always
+    privileged: true
+    ports:
+      - '8181:8080'
+    volumes:
+      - scrutiny_config:/opt/scrutiny/config
+    environment:
+      - SCRUTINY_WEB_INFLUXDB_HOST=influxdb2
+      - SCRUTINY_WEB_INFLUXDB_TOKEN=t-YwgqDNjJbUjgWg63D1wWt_l0n0OnTMkXWC1uhgsaFbQ4mgkvQFWl5Dw4uvVfTGYLqlY9Bn621GrRg1l372CQ==
+      # - SCRUTINY_WEB_INFLUXDB_TOKEN=340IUNFVUZFPaPuhpZJH53Lga_f0mN5OSJVuN96Df8eGo0YYH86Rg9IyURXuo6eCd-OQAmr55Uhang0frbC4tw==
+      - SCRUTINY_WEB_INFLUXDB_INIT_USERNAME=admin
+      - SCRUTINY_WEB_INFLUXDB_INIT_PASSWORD=Godknows321
+    # depends_on:
+    #   influxdb2:
+    #     condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8181/api/health']
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 10s
+    networks:
+      prom_net:
+
+  collector:
+    image: 'ghcr.io/analogj/scrutiny:master-collector'
+    container_name: scrutiny-collector
+    restart: always
+    privileged: true
+    cap_add:
+      - SYS_RAWIO
+    volumes:
+      - /run/udev:/run/udev:ro
+    environment:
+      - COLLECTOR_API_ENDPOINT=http://web:8181
+    depends_on:
+      web:
+        condition: service_healthy
+    devices:
+      - /dev/sda
+      - /dev/sdb
+    networks:
+      prom_net:
+
+volumes:
+  scrutiny_config:
+    name: scrutiny_config
+
+networks:
+  prom_net:
+    external: true

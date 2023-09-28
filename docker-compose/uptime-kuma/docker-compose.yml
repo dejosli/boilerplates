@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+  uptimekuma:
+    image: 'louislam/uptime-kuma:latest'
+    container_name: uptimekuma
+    hostname: uptime.atnnews.local
+    restart: always
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Asia/Dhaka
+    ports:
+      - '3001:3001'
+    volumes:
+      - uptimekuma_data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      ipvlan_net:
+        ipv4_address: 192.168.100.58
+        # ip addr add 192.168.50.58/24 dev eth0 (add it manually)
+    dns:
+      - 192.168.100.79
+      - 192.168.100.1
+
+volumes:
+  uptimekuma_data:
+    name: uptimekuma_data
+
+networks:
+  ipvlan_net:
+    external: true
