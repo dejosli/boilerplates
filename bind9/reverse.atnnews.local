@@ -1,0 +1,31 @@
+; zone file for atnnews.local
+
+; default TTL for this zone
+$TTL 1D
+
+; Start of Authority record defining the key characteristics fo this zone 
+@       IN SOA  time.atnnews.local. root.atnnews.local. (
+                                        001     ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+
+; Name servers for this domain
+@       IN NS   time.atnnews.local.
+@       IN PTR  atnnews.local.
+
+; PTR records
+23      IN      PTR     graphicsnas.atnnews.local.
+31      IN      PTR     onps.atnnews.local.
+51      IN      PTR     dkr.atnnews.local.
+52      IN      PTR     dashy.atnnews.local.
+53      IN      PTR     it.atnnews.local.
+55      IN      PTR     rtmp1.atnnews.local.
+56      IN      PTR     rtmp2.atnnews.local.
+58      IN      PTR     uptime.atnnews.local.
+59      IN      PTR     itnas.atnnews.local.
+79      IN      PTR     time.atnnews.local.
+196     IN      PTR     eset.atnnews.local.
+204     IN      PTR     rtmp3.atnnews.local.
+205     IN      PTR     rtmp4.atnnews.local.

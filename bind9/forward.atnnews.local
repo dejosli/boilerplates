@@ -1,0 +1,46 @@
+; zone file for atnnews.local
+
+; default TTL for this zone
+$TTL 1D
+
+; base domain name
+$ORIGIN atnnews.local.
+
+; Start of Authority record defining the key characteristics fo this zone 
+@       IN SOA  time.atnnews.local. root.atnnews.local. (
+                                        001     ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+
+; Name servers for this domain
+@       IN NS   time.atnnews.local.
+
+; Mail servers for this domain. A small number (0) implies higher priority.
+
+; A records for name servers
+@       IN A    192.168.100.79
+
+; A records
+onps            IN      A       192.168.100.31
+dkr             IN      A       192.168.100.51
+dashy           IN      A       192.168.100.52
+it              IN      A       192.168.100.53
+rtmp1           IN      A       192.168.100.55
+rtmp2           IN      A       192.168.100.56    
+uptime          IN      A       192.168.100.58
+time            IN      A       192.168.100.79
+eset            IN      A       192.168.100.196
+rtmp3           IN      A       192.168.100.204
+rtmp4           IN      A       192.168.100.205
+graphicsnas     IN      A       192.168.50.23
+itnas           IN      A       192.168.50.59
+
+
+; AAAA records
+
+
+; CNAME records
+
+; TXT records (SPF, DKIM, DMARC, etc)
