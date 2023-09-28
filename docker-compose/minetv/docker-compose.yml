@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  minetv:
+    image: 'minetv:latest'
+    container_name: minetv
+    restart: always
+    privileged: true
+    ports:
+      - '59999:59999'
+      - '60011:60011'
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      dkr_net:
+
+networks:
+  dkr_net:
+    external: true
