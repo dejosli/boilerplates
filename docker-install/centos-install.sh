@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Update the package repository
+yum update -y
+
 # Set up the repository
 yum install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
