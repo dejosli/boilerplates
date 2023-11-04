@@ -1,3 +1,5 @@
+; /var/named/forward.atnnews.local (RHEL)
+; /etc/bind/forward.atnnews.local (Ubuntu)
 ; zone file for atnnews.local
 
 ; default TTL for this zone
@@ -6,7 +8,7 @@ $TTL 1D
 ; base domain name
 $ORIGIN atnnews.local.
 
-; Start of Authority record defining the key characteristics fo this zone 
+; Start of Authority record defining the key characteristics fo this zone
 @       IN SOA  time.atnnews.local. root.atnnews.local. (
                                         001     ; serial
                                         1D      ; refresh
@@ -28,7 +30,7 @@ dkr             IN      A       192.168.100.51
 dashy           IN      A       192.168.100.52
 it              IN      A       192.168.100.53
 rtmp1           IN      A       192.168.100.55
-rtmp2           IN      A       192.168.100.56    
+rtmp2           IN      A       192.168.100.56
 uptime          IN      A       192.168.100.58
 time            IN      A       192.168.100.79
 eset            IN      A       192.168.100.196

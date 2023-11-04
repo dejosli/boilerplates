@@ -1,9 +1,11 @@
+; /var/named/reverse.atnnews.local (RHEL)
+; /etc/bind/forward.atnnews.local (Ubuntu)
 ; zone file for atnnews.local
 
 ; default TTL for this zone
 $TTL 1D
 
-; Start of Authority record defining the key characteristics fo this zone 
+; Start of Authority record defining the key characteristics fo this zone
 @       IN SOA  time.atnnews.local. root.atnnews.local. (
                                         001     ; serial
                                         1D      ; refresh
