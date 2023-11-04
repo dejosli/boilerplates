@@ -1,0 +1,20 @@
+version: '3.5'
+
+services:
+  klnkserver:
+    image: kiloview/klnkserver:latest
+    container_name: klnkserver
+    hostname: klnkserver
+    restart: always
+    user: root
+    privileged: true
+    network_mode: host
+    environment:
+      - TZ=Asia/Dhaka
+    volumes:
+      - klnkserver_config:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  klnkserver_config:
+    name: klnkserver_config
