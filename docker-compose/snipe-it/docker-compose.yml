@@ -1,0 +1,78 @@
+version: '3.5'
+
+services:
+  snipeitdb:
+    image: linuxserver/mariadb:latest
+    container_name: snipeitdb
+    hostname: snipeitdb.atnnews.local
+    ports:
+      - '3306:3306'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+      - MYSQL_DATABASE=snipeit
+      - MYSQL_USER=snipeit
+      - MYSQL_PASSWORD=changeme1234
+      - MYSQL_ROOT_PASSWORD=changeme1234
+    volumes:
+      - snipeit_db:/config
+    networks:
+      ipvlan_net:
+        ipv4_address: 192.168.100.56
+    dns:
+      - 192.168.100.1
+      - 192.168.100.79
+
+  snipeit:
+    depends_on:
+      - snipeitdb
+    image: linuxserver/snipe-it:latest
+    container_name: snipeit
+    hostname: snipeit.atnnews.local
+    restart: always
+    privileged: true
+    ports:
+      - '80:80'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Dhaka
+      - APP_URL=http://192.168.100.57
+      - ALLOW_BACKUP_DELETE=true
+      - MYSQL_PORT_3306_TCP_ADDR=192.168.100.56
+      - MYSQL_PORT_3306_TCP_PORT=3306
+      - MYSQL_DATABASE=snipeit
+      - MYSQL_USER=snipeit
+      - MYSQL_PASSWORD=changeme1234
+      - MYSQL_ROOT_PASSWORD=changeme1234
+      - MAIL_ENV_FROM_NAME=it.atnnews@gmail.com
+      - MAIL_ENV_FROM_ADDR=it.atnnews@gmail.com
+    volumes:
+      - snipeit_config:/config
+    networks:
+      ipvlan_net:
+        ipv4_address: 192.168.100.57
+    dns:
+      - 192.168.100.1
+      - 192.168.100.79
+
+volumes:
+  snipeit_db:
+    name: snipeit_db
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/admin/Docker/snipe-it/db
+  snipeit_config:
+    name: snipeit_config
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/admin/Docker/snipe-it/config
+
+networks:
+  ipvlan_net:
+    external: true

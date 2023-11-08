@@ -1,14 +1,11 @@
 version: '3.5'
 
 services:
-  dashy_srv01:
-    image: 'linuxserver/heimdall:latest'
-    container_name: dashy_srv01
-    hostname: dashy-srv01.atnnews.local
+  dashy1:
+    image: linuxserver/heimdall:latest
+    container_name: dashy1
+    hostname: dashy1.atnnews.local
     restart: always
-    privileged: true
-    cap_add:
-      - NET_ADMIN
     environment:
       - PUID=1000
       - PGID=1000
@@ -17,23 +14,19 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - srv01_data:/config
+      - dashy1_data:/config
     networks:
       ipvlan_net:
-        ipv4_address: 192.168.100.53
-        # ip addr add 192.168.50.53/24 dev eth0 (add it manually)
+        ipv4_address: 192.168.100.52
     dns:
       - 192.168.100.79
       - 192.168.100.1
 
-  dashy_srv02:
-    image: 'linuxserver/heimdall:latest'
-    container_name: dashy_srv02
-    hostname: dashy-srv02.atnnews.local
+  dashy2:
+    image: linuxserver/heimdall:latest
+    container_name: dashy2
+    hostname: dashy2.atnnews.local
     restart: always
-    privileged: true
-    cap_add:
-      - NET_ADMIN
     environment:
       - PUID=1000
       - PGID=1000
@@ -42,20 +35,19 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - srv02_data:/config
+      - dashy2_data:/config
     networks:
       ipvlan_net:
-        ipv4_address: 192.168.100.52
-        # ip addr add 192.168.50.52/24 dev eth0 (add it manually)
+        ipv4_address: 192.168.100.53
     dns:
       - 192.168.100.79
       - 192.168.100.1
 
 volumes:
-  srv01_data:
-    name: srv01_data
-  srv02_data:
-    name: srv02_data
+  dashy1_data:
+    name: dashy1_data
+  dashy2_data:
+    name: dashy2_data
 
 networks:
   ipvlan_net:
