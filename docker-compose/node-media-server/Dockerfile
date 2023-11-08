@@ -12,8 +12,8 @@ RUN npm install pm2 -g
 RUN npm install node-media-server
 
 ADD app.js .
-ADD ecosystem.config.js .
+ADD ecosystem_docker.config.js .
 
 EXPOSE 1935 8000 8443
 
-CMD ["pm2-runtime","ecosystem.config.js"]
+CMD ["pm2-runtime","ecosystem_docker.config.js"]
